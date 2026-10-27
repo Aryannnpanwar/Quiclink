@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0d1b2a" />
+    <meta name="description" content="QuicLink shortens URLs and generates QR codes in seconds." />
+    <title>QuicLink — Shorten. Scan. Share.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="icon" href="quiclink-logo.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="#top" aria-label="QuicLink home">
+          <img src="quiclink-logo.svg" alt="QuicLink" width="154" height="32" decoding="async" />
+        </a>
+
+        <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
+          <a href="#tools">Tools</a>
+          <a href="#recent">My links</a>
+        </nav>
+
+        <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+          <span>Menu</span>
+          <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3 5h12M3 9h12M3 13h12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+        </button>
+      </header>
+
+      <main id="top">
+        <section class="workspace" id="tools" aria-labelledby="workspace-title">
+          <div class="workspace-intro">
+            <p class="section-kicker">QuicLink</p>
+            <h1 id="workspace-title">Make your links work smarter.</h1>
+            <p>Shorten URLs and generate QR codes in seconds.</p>
+          </div>
+
+          <div class="tool-shell">
+            <div class="tool-tabs" role="tablist" aria-label="QuicLink tools" aria-orientation="horizontal">
+              <button class="tool-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="tool-panel" tabindex="0" data-tool="shorten">
+                <span>Shorten URL</span>
+              </button>
+              <button class="tool-tab" type="button" role="tab" aria-selected="false" aria-controls="tool-panel" tabindex="-1" data-tool="qr">
+                <span>QR Code</span>
+              </button>
+              <button class="tool-tab" type="button" role="tab" aria-selected="false" aria-controls="tool-panel" tabindex="-1" data-tool="combo">
+                <span>Shorten + QR</span>
+              </button>
+            </div>
+
+            <div class="tool-panel" id="tool-panel" role="tabpanel" tabindex="0" aria-labelledby="panel-title">
+              <div class="panel-intro">
+                <div>
+                  <p class="panel-label" id="panel-label">SHORTEN URL</p>
+                  <h2 id="panel-title">Create a short link.</h2>
+                </div>
+                <span class="status-pill"><span></span> Ready</span>
+              </div>
+
+              <form id="link-form" novalidate>
+                <label class="field-label" for="url-input">Destination URL</label>
+                <div class="url-input-wrap">
+                  <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8.5 11.5 11.5 8.5M6.4 14.7l-1.1 1.1a3.5 3.5 0 0 1-5-5l2.1-2.1a3.5 3.5 0 0 1 5 0M13.6 5.3l1.1-1.1a3.5 3.5 0 0 1 5 5l-2.1 2.1a3.5 3.5 0 0 1-5 0" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" /></svg>
+                  <input id="url-input" name="url" type="url" inputmode="url" autocomplete="url" aria-describedby="url-error" placeholder="https://example.com/your-long-link" required />
+                </div>
+                <p class="field-error" id="url-error" role="alert"></p>
+
+                <div class="alias-row" id="alias-row">
+                  <div>
+                    <label class="field-label" for="alias-input">Custom alias <span>optional</span></label>
+                  </div>
+                  <div class="alias-input-wrap">
+                    <span id="alias-prefix">your-domain/</span>
+                    <input id="alias-input" name="alias" type="text" maxlength="24" aria-describedby="alias-error" placeholder="launch-day" autocomplete="off" />
+                  </div>
+                </div>
+                <p class="field-error" id="alias-error" role="alert"></p>
+
+                <div class="form-actions">
+                  <button class="primary-button" id="submit-button" type="submit">
+                    <span id="submit-label">Shorten URL</span>
+                    <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9h10M9.5 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                  </button>
+                  <button class="text-button" id="clear-button" type="button">Clear</button>
+                </div>
+              </form>
+
+              <div class="result-card" id="result-card" hidden>
+                <div class="result-heading">
+                  <div>
+                    <p class="panel-label">RESULT</p>
+                    <h3 id="result-title">Your short link is ready.</h3>
+                  </div>
+                  <span class="success-mark" aria-label="Success">✓</span>
+                </div>
+
+                <div class="result-grid">
+                  <div class="result-link-box">
+                    <span class="result-caption" id="result-caption">SHORT LINK</span>
+                    <a id="short-link" href="#" target="_blank" rel="noreferrer">No link yet</a>
+                    <button class="icon-button" id="copy-button" type="button" aria-label="Copy short link" title="Copy short link">
+                      <svg viewBox="0 0 18 18" aria-hidden="true"><rect x="6.2" y="5.2" width="8.3" height="9.3" rx="1.3" fill="none" stroke="currentColor" stroke-width="1.35" /><path d="M11.2 5.2V3.8c0-.7-.5-1.2-1.2-1.2H4.3C3.6 2.6 3 3.1 3 3.8v7.4c0 .7.6 1.2 1.3 1.2h1.9" fill="none" stroke="currentColor" stroke-width="1.35" /></svg>
+                    </button>
+                  </div>
+                  <div class="qr-preview" id="qr-preview" aria-label="Generated QR code preview" hidden>
+                    <div class="qr-placeholder" id="qr-placeholder"><span>QR</span><small>Generated locally</small></div>
+                    <canvas id="qr-canvas" width="220" height="220" hidden></canvas>
+                  </div>
+                </div>
+
+                <div class="result-actions">
+                  <button class="secondary-button" id="result-qr-button" type="button" hidden>Generate QR</button>
+                  <button class="secondary-button" id="download-button" type="button" disabled hidden>
+                    <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M9 2.5v9M5.5 8.5 9 12l3.5-3.5M3 14.5h12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                    Download PNG
+                  </button>
+                  <button class="secondary-button" id="new-link-button" type="button">Create another</button>
+                </div>
+                <p class="result-note" id="result-note"></p>
+              </div>
+
+              <div class="inline-status" id="inline-status" role="status" aria-live="polite"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="recent-section" id="recent" aria-labelledby="recent-title">
+          <div class="recent-heading">
+            <div>
+              <p class="section-kicker">Saved links</p>
+              <h2 id="recent-title">My links</h2>
+            </div>
+            <span class="local-badge">Server + local</span>
+          </div>
+
+          <div class="recent-columns">
+            <div class="recent-source">
+              <div class="recent-source-heading">
+                <h3>Persistent links</h3>
+                <span class="recent-source-status" id="api-recent-status" role="status">Loading…</span>
+              </div>
+              <div class="recent-list" id="api-recent-list" aria-live="polite">
+                <div class="recent-empty" id="api-recent-empty">
+                  <strong>No links yet.</strong>
+                  <p>Shortened links will appear here.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="recent-source local-recent-source">
+              <div class="recent-source-heading">
+                <h3>QR history</h3>
+                <span class="recent-source-status">This device</span>
+              </div>
+              <div class="recent-list" id="local-recent-list" aria-live="polite">
+                <div class="recent-empty compact-empty" id="local-recent-empty">
+                  <strong>No links yet.</strong>
+                  <p>QR-only results stay on this device.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="recent-footer">
+            <span><i></i> QR history is browser-only</span>
+            <button type="button" id="clear-history">Clear local history</button>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <a class="brand footer-brand" href="#top" aria-label="QuicLink home"><img src="quiclink-logo.svg" alt="QuicLink" width="128" height="27" decoding="async" /></a>
+        <span>Shorten. Scan. Share.</span>
+      </footer>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="vendor/qrcode-browser.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+# Installed dependencies
+node_modules/
+
+# Private local configuration. Keep the documented template shareable.
+.env
+.env.*
+!.env.example
+
+# Logs and local machine files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+.DS_Store
+
+# Generated build and test output
+coverage/
+dist/
+build/
+.next/
+
+# Source maps created beside the committed browser QR bundle
+vendor/qrcode-browser.js.map
