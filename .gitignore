@@ -22,3 +22,6 @@ build/
 
 # Source maps created beside the committed browser QR bundle
 vendor/qrcode-browser.js.map
+
+# Local backup files
+server.js.backup

@@ -2,10 +2,19 @@
 
 const crypto = require('crypto');
 const express = require('express');
+const { rateLimit } = require('express-rate-limit');
 const { Pool } = require('pg');
 require('dotenv').config();
 
 const app = express();
+
+const createLinkLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 30,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+  message: { error: 'Too many link-creation requests. Please try again later.' }
+});
 app.disable('x-powered-by');
 
 const DEFAULT_DB_CONNECTION_TIMEOUT_MS = 10000;
@@ -302,7 +311,7 @@ app.get('/api/health', async (_request, response) => {
   }
 });
 
-app.post('/api/links', requireDatabase, async (request, response) => {
+app.post('/api/links', createLinkLimiter, requireDatabase, async (request, response) => {
   if (!isObject(request.body)) {
     return sendValidationError(response, 'Request body must be a JSON object.');
   }
