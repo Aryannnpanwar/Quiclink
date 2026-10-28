@@ -3,25 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0d1b2a" />
-    <meta name="description" content="QuicLink shortens URLs and generates QR codes in seconds." />
-    <title>QuicLink — Shorten. Scan. Share.</title>
+    <meta name="theme-color" content="#090a0c" />
+    <meta name="description" content="QuicLink turns long URLs into precise, shareable links and locally generated QR codes." />
+    <title>QuicLink — Make it travel.</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="icon" href="quiclink-logo.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="launch.css" />
   </head>
   <body>
     <div class="page-shell">
       <header class="site-header">
         <a class="brand" href="#top" aria-label="QuicLink home">
-          <img src="quiclink-logo.svg" alt="QuicLink" width="154" height="32" decoding="async" />
+          <img src="quiclink-logo.svg" alt="QUICLINK" width="154" height="32" decoding="async" />
         </a>
 
         <nav class="site-nav" id="site-nav" aria-label="Primary navigation">
-          <a href="#tools">Tools</a>
-          <a href="#recent">My links</a>
+          <a href="#benefits">Why QuicLink</a>
+          <a href="#recent">Library</a>
+          <a href="#workspace">Workspace<svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9h10M9.5 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
         </nav>
 
         <button class="menu-toggle" id="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
@@ -31,23 +33,63 @@
       </header>
 
       <main id="top">
-        <section class="workspace" id="tools" aria-labelledby="workspace-title">
-          <div class="workspace-intro">
-            <p class="section-kicker">QuicLink</p>
-            <h1 id="workspace-title">Make your links work smarter.</h1>
-            <p>Shorten URLs and generate QR codes in seconds.</p>
+        <section class="hero" id="hero" aria-labelledby="hero-title">
+          <div class="hero-grid" aria-hidden="true"></div>
+          <div class="hero-content reveal is-visible">
+            <p class="eyebrow">QUICLINK / LINK INTELLIGENCE</p>
+            <h1 id="hero-title" class="hero-title">
+              <span class="hero-title-line">Move with</span>
+              <span class="hero-title-mark">QUICLINK</span>
+            </h1>
+            <p class="hero-lede">Short links and local QR codes, made for the moment you need to share.</p>
+            <div class="hero-actions">
+              <a class="hero-button hero-button-primary" href="#workspace">Create a link <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M3.5 9h10M9.5 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></svg></a>
+            </div>
           </div>
 
-          <div class="tool-shell">
+          <div class="hero-art" aria-hidden="true">
+            <div class="hero-art-header"><span>QL / 01</span><span>SHARE SYSTEM</span></div>
+            <div class="hero-schematic">
+              <div class="schematic-line schematic-line-main"></div>
+              <div class="schematic-line schematic-line-cross"></div>
+              <span class="schematic-node schematic-node-one"></span>
+              <span class="schematic-node schematic-node-two"></span>
+              <div class="schematic-link"><span>https://</span><b>quiclink / move</b></div>
+              <div class="schematic-qr"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+            <div class="hero-art-label"><span>01</span><span>SHORTEN / SCAN / MOVE</span></div>
+          </div>
+
+          <div class="hero-foot reveal is-visible">
+            <div class="hero-note"><span class="live-dot"></span><span>Built for the next share</span></div>
+            <div class="hero-specs"><span>URL / QR</span><span>LOCAL BY DESIGN</span></div>
+          </div>
+        </section>
+
+        <section class="workspace" id="workspace" aria-labelledby="workspace-title">
+          <div class="workspace-header reveal">
+            <div class="section-index">01 / WORKSPACE</div>
+            <div class="workspace-intro">
+              <p class="eyebrow">The QuicLink workspace</p>
+              <h2 id="workspace-title">Shorten or scan.</h2>
+              <p>One focused surface for shortening, scanning, and sharing.</p>
+            </div>
+            <div class="workspace-aside">
+              <span class="system-status"><i></i> SYSTEM READY</span>
+              <p>PostgreSQL-backed links.<br />Local QR generation.</p>
+            </div>
+          </div>
+
+          <div class="tool-shell reveal">
             <div class="tool-tabs" role="tablist" aria-label="QuicLink tools" aria-orientation="horizontal">
               <button class="tool-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="tool-panel" tabindex="0" data-tool="shorten">
-                <span>Shorten URL</span>
+                <span class="tab-number">01</span><span>Shorten URL</span>
               </button>
               <button class="tool-tab" type="button" role="tab" aria-selected="false" aria-controls="tool-panel" tabindex="-1" data-tool="qr">
-                <span>QR Code</span>
+                <span class="tab-number">02</span><span>QR Code</span>
               </button>
               <button class="tool-tab" type="button" role="tab" aria-selected="false" aria-controls="tool-panel" tabindex="-1" data-tool="combo">
-                <span>Shorten + QR</span>
+                <span class="tab-number">03</span><span>Shorten + QR</span>
               </button>
             </div>
 
@@ -125,13 +167,12 @@
               <div class="inline-status" id="inline-status" role="status" aria-live="polite"></div>
             </div>
           </div>
-        </section>
 
-        <section class="recent-section" id="recent" aria-labelledby="recent-title">
+          <div class="recent-section reveal" id="recent" role="region" aria-labelledby="recent-title">
           <div class="recent-heading">
             <div>
-              <p class="section-kicker">Saved links</p>
-              <h2 id="recent-title">My links</h2>
+              <div class="section-index">LIBRARY</div>
+              <h2 id="recent-title">Saved links.</h2>
             </div>
             <span class="local-badge">Server + local</span>
           </div>
@@ -168,12 +209,29 @@
             <span><i></i> QR history is browser-only</span>
             <button type="button" id="clear-history">Clear local history</button>
           </div>
+          </div>
+        </section>
+
+        <section class="benefits section-frame reveal" id="benefits" aria-labelledby="benefits-title">
+          <div class="benefits-heading">
+            <div>
+              <div class="section-index">02 / WHY QUICLINK</div>
+              <h2 id="benefits-title">One destination.<br /><em>Three useful surfaces.</em></h2>
+            </div>
+            <p>Precise tools for the way links move through the world.</p>
+          </div>
+          <div class="benefits-list">
+            <div class="benefit-item"><span>01</span><div><h3>Persistent</h3><p>Short links are saved through the existing PostgreSQL-backed service.</p></div></div>
+            <div class="benefit-item"><span>02</span><div><h3>Local</h3><p>QR codes are generated in the browser and stay close to the work.</p></div></div>
+            <div class="benefit-item"><span>03</span><div><h3>Ready</h3><p>Copy, open, edit, and download without leaving the workspace.</p></div></div>
+          </div>
         </section>
       </main>
 
       <footer class="site-footer">
-        <a class="brand footer-brand" href="#top" aria-label="QuicLink home"><img src="quiclink-logo.svg" alt="QuicLink" width="128" height="27" decoding="async" /></a>
-        <span>Shorten. Scan. Share.</span>
+        <a class="brand footer-brand" href="#top" aria-label="QUICLINK home"><img src="quiclink-logo.svg" alt="QUICLINK" width="128" height="27" decoding="async" /></a>
+        <span>Make it travel.</span>
+        <span class="footer-code">QL / 2026</span>
       </footer>
     </div>
 

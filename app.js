@@ -7,6 +7,7 @@ const aliasRow = document.querySelector('#alias-row');
 const submitButton = document.querySelector('#submit-button');
 const submitLabel = document.querySelector('#submit-label');
 const clearButton = document.querySelector('#clear-button');
+const toolShell = document.querySelector('.tool-shell');
 const resultCard = document.querySelector('#result-card');
 const resultTitle = document.querySelector('#result-title');
 const resultCaption = document.querySelector('#result-caption');
@@ -28,12 +29,16 @@ const statusPill = document.querySelector('.status-pill');
 const toast = document.querySelector('#toast');
 const apiRecentList = document.querySelector('#api-recent-list');
 const apiRecentEmpty = document.querySelector('#api-recent-empty');
+const apiRecentEmptyTitle = apiRecentEmpty?.querySelector('strong');
+const apiRecentEmptyDetail = apiRecentEmpty?.querySelector('p');
 const apiRecentStatus = document.querySelector('#api-recent-status');
 const localRecentList = document.querySelector('#local-recent-list');
 const localRecentEmpty = document.querySelector('#local-recent-empty');
 const clearHistoryButton = document.querySelector('#clear-history');
 const menuButton = document.querySelector('#menu-toggle');
 const siteNav = document.querySelector('#site-nav');
+
+document.body.classList.add('reveal-ready');
 
 const LINKS_ENDPOINT = '/api/links';
 const HISTORY_KEY = 'quiclink.local-history.v1';
@@ -76,6 +81,26 @@ function setMenuOpen(isOpen) {
   if (!menuButton || !siteNav) return;
   menuButton.setAttribute('aria-expanded', String(isOpen));
   siteNav.classList.toggle('is-open', isOpen);
+}
+
+function initScrollReveals() {
+  const revealItems = [...document.querySelectorAll('.reveal:not(.is-visible)')];
+  if (!revealItems.length) return;
+
+  if (typeof window.IntersectionObserver !== 'function') {
+    revealItems.forEach((item) => item.classList.add('is-visible'));
+    return;
+  }
+
+  const observer = new window.IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-visible');
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+  revealItems.forEach((item) => observer.observe(item));
 }
 
 function setActiveTool(tool, shouldFocus = false) {
@@ -145,6 +170,7 @@ function resetQr() {
 function resetResult() {
   currentResult = null;
   resultCard.hidden = true;
+  resultCard.classList.remove('is-revealing');
   qrPreview.hidden = true;
   resultQrButton.hidden = true;
   downloadButton.hidden = true;
@@ -195,6 +221,7 @@ function validateForm() {
 function setLoading(isLoading) {
   submitButton.disabled = isLoading;
   clearButton.disabled = isLoading;
+  toolShell?.classList.toggle('is-submitting', isLoading);
   submitButton.classList.toggle('is-loading', isLoading);
   submitLabel.textContent = isLoading ? 'Preparing…' : (editingLinkId && activeTool === 'shorten' ? 'Save changes' : toolCopy[activeTool].submit);
   setStatusPill(isLoading ? 'Working…' : 'Ready', isLoading ? 'loading' : '');
@@ -234,7 +261,10 @@ async function requestJson(url, options = {}) {
 
   if (!response.ok) {
     const message = payload?.message || payload?.error || `The link service returned ${response.status}.`;
-    throw new Error(message);
+    const error = new Error(message);
+    error.code = payload?.code || '';
+    error.status = response.status;
+    throw error;
   }
   return payload;
 }
@@ -337,8 +367,26 @@ function setApiStatus(message, type = '') {
   apiRecentStatus.dataset.state = type;
 }
 
+function setApiEmptyState(title, detail, type = '') {
+  if (!apiRecentEmpty) return;
+  apiRecentEmpty.dataset.state = type;
+  if (apiRecentEmptyTitle) apiRecentEmptyTitle.textContent = title;
+  if (apiRecentEmptyDetail) apiRecentEmptyDetail.textContent = detail;
+}
+
+function getApiErrorDetail(error) {
+  if (error?.code === 'DATABASE_NOT_CONFIGURED' || /not configured/i.test(error?.message || '')) {
+    return 'The link service needs a PostgreSQL connection before saved links can be used.';
+  }
+  if (error?.code === 'DATABASE_UNAVAILABLE' || /postgresql|database|link service/i.test(error?.message || '')) {
+    return 'The PostgreSQL service could not be reached. Check the server connection and try again.';
+  }
+  return error?.message || 'The saved-link service could not be reached. Try again shortly.';
+}
+
 async function loadServerLinks() {
   setApiStatus('Loading…');
+  setApiEmptyState('Loading saved links…', 'Checking the PostgreSQL-backed link service.');
   try {
     const payload = await requestJson(LINKS_ENDPOINT);
     serverLinks = extractLinkCollection(payload).map(normalizeLink).filter((link) => link?.shortUrl);
@@ -348,7 +396,8 @@ async function loadServerLinks() {
   } catch (error) {
     serverLinks = [];
     renderServerLinks();
-    setApiStatus('Unavailable', 'error');
+    setApiEmptyState('Saved links unavailable.', getApiErrorDetail(error), 'error');
+    setApiStatus('Database unavailable', 'error');
     setStatusPill('API offline', 'error');
   }
 }
@@ -465,6 +514,7 @@ function renderServerLinks() {
   if (!apiRecentList) return;
   apiRecentList.replaceChildren();
   if (!serverLinks.length) {
+    setApiEmptyState('No saved links yet.', 'Shortened links will appear here after you create one.');
     apiRecentList.append(apiRecentEmpty);
     return;
   }
@@ -518,7 +568,7 @@ function beginEditing(link) {
   panelTitle.textContent = 'Update your short link.';
   submitLabel.textContent = 'Save changes';
   setStatus(`Editing ${link.shortUrl}. Save when you are ready.`, '');
-  document.querySelector('#tools')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.querySelector('#workspace')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   urlInput.focus({ preventScroll: true });
 }
 
@@ -581,6 +631,9 @@ function renderResult({ destination, link = null, qrValue = '', qrReady = false,
   }
 
   currentResult = { destination, link, shortUrl: link?.shortUrl || '', qrValue, qrReady, showQr: shouldShowQr, visibleValue };
+  resultCard.classList.remove('is-revealing');
+  void resultCard.offsetWidth;
+  resultCard.classList.add('is-revealing');
   resultCard.hidden = false;
 }
 
@@ -790,6 +843,7 @@ renderLocalHistory();
 renderServerLinks();
 setAliasPrefix();
 setActiveTool('shorten');
+initScrollReveals();
 loadServerLinks();
 
 /*

@@ -5,6 +5,7 @@ const {
   generateShortCode,
   validateHttpUrl,
   validateShortCode,
+  getDatabaseConfig,
 } = require('../server');
 
 test('accepts HTTP and HTTPS destination URLs', () => {
@@ -33,4 +34,17 @@ test('generates URL-safe eight-character short codes', () => {
   for (const code of codes) {
     assert.match(code, /^[A-Za-z0-9_-]{8}$/);
   }
+});
+
+test('configures a Neon-style connection for SSL and bounded pooling', () => {
+  const config = getDatabaseConfig({
+    DATABASE_URL: 'postgresql://app-user@example.neon.tech/app?sslmode=require',
+    PGPOOL_MAX: '5',
+  });
+
+  assert.equal(config.max, 5);
+  assert.equal(config.ssl, true);
+  assert.equal(config.connectionTimeoutMillis, 10000);
+  assert.equal(config.idleTimeoutMillis, 30000);
+  assert.equal(config.keepAlive, true);
 });

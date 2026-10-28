@@ -8,7 +8,7 @@ QuicLink is a standalone URL utility with three independent workflows:
 2. **Generate QR** — encode any HTTP/HTTPS URL locally and download the QR code as a PNG.
 3. **Shorten + QR** — create a real short link, then encode that short link in a QR code.
 
-The original QuicLink visual direction is preserved: Manrope and DM Mono typography, navy/mint branding, responsive tool tabs, result cards, and a mobile navigation menu.
+The launch experience uses Manrope and DM Mono typography, a near-black/silver/crimson QuicLink identity, responsive tool tabs, result cards, scroll reveals, and a mobile navigation menu.
 
 ## Required software
 
@@ -58,6 +58,8 @@ psql "postgresql://quiclink:replace-this-password@localhost:5432/quiclink" -f db
 
 The schema creates the `links` table with a unique constraint on `short_code`, so duplicate codes cannot overwrite existing records.
 
+The schema is safe to initialize on Neon. It uses `CREATE TABLE IF NOT EXISTS` and `CREATE INDEX IF NOT EXISTS` only; it does not drop, truncate, or overwrite existing data.
+
 ## Environment configuration
 
 Create a private `.env` file from the template:
@@ -75,9 +77,23 @@ DATABASE_URL=postgresql://quiclink:replace-this-password@localhost:5432/quiclink
 DATABASE_SSL=false
 ```
 
-`PUBLIC_APP_URL` is used when the API returns a short URL. It is not hardcoded in the frontend or production server. For a deployed app, set it to the deployed HTTPS origin.
+`PUBLIC_APP_URL` is the configurable public origin used in the `shortUrl` returned by `POST /api/links` and `GET /api/links`. It is validated as an HTTP or HTTPS URL, trimmed of trailing slashes, and is not hardcoded in the frontend. Combined short-link + QR results encode this returned URL, so the QR code uses the same public base. QR-only results intentionally encode the URL entered by the user and remain local to the browser.
+
+For local development, leave `PUBLIC_APP_URL=http://localhost:3000`. After deployment, set it to the app's public HTTPS origin, for example `PUBLIC_APP_URL=https://links.example.com`, then restart the server. Do not use a placeholder domain: the value must resolve to this QuicLink server for generated short links and combined QR codes to be publicly shareable.
 
 If PostgreSQL is not installed or the environment variables are missing, the server still serves the frontend, but `/api/health`, link creation, link listing, link updates, deletion, and redirects return an explicit HTTP 503 response explaining that PostgreSQL is not configured. No fake or in-memory links are created.
+
+### Neon production configuration
+
+Do not put the Neon connection string in the repository or overwrite the local `.env`. In the production host's secure environment-variable settings, set `DATABASE_URL` to the connection string copied from Neon. Prefer Neon’s pooled connection string for a pooled application process and keep its `sslmode=require` query parameter intact. The server honors that SSL setting automatically. `PGPOOL_MAX` can optionally cap the per-process pool; a modest value such as `5` is a reasonable starting point for Neon.
+
+Initialize the existing schema against Neon using the secure environment variable, or paste `db/schema.sql` into Neon’s SQL Editor:
+
+```bash
+psql "$DATABASE_URL" -f db/schema.sql
+```
+
+The production host must also set `PUBLIC_APP_URL` to the deployed HTTPS origin. After setting `DATABASE_URL`, `PUBLIC_APP_URL`, and any optional pool/SSL settings, restart the application and verify `GET /api/health` before creating links.
 
 ## Run the application
 

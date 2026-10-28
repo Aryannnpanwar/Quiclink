@@ -1,11 +1,10 @@
 <svg width="460" height="96" viewBox="0 0 460 96" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">QuicLink</title>
-  <desc id="desc">QuicLink logo with an interlocking link mark</desc>
-  <rect x="4" y="4" width="88" height="88" rx="25" fill="#C7F36C"/>
-  <path d="M31.4 40.7 38.2 33.9C44.9 27.2 55.8 27.2 62.5 33.9L64.3 35.7C71 42.4 71 53.3 64.3 60L57.5 66.8" stroke="#0D1B2A" stroke-width="7.2" stroke-linecap="round"/>
-  <path d="M64.6 55.3 57.8 62.1C51.1 68.8 40.2 68.8 33.5 62.1L31.7 60.3C25 53.6 25 42.7 31.7 36L38.5 29.2" stroke="#0D1B2A" stroke-width="7.2" stroke-linecap="round"/>
-  <path d="m39.1 57.1 16.2-16.2" stroke="#0D1B2A" stroke-width="7.2" stroke-linecap="round"/>
-  <circle cx="72.5" cy="25" r="5.5" fill="#FF8E70"/>
-  <text x="116" y="64" fill="#0D1B2A" font-family="Manrope, Arial, sans-serif" font-size="48" font-weight="800" letter-spacing="-2.8">Quic</text>
-  <text x="229" y="64" fill="#88A92F" font-family="Manrope, Arial, sans-serif" font-size="48" font-weight="800" letter-spacing="-2.8">Link</text>
+  <title id="title">QUICLINK</title>
+  <desc id="desc">QUICLINK logo with an interlocking link mark</desc>
+  <rect x="4" y="4" width="88" height="88" rx="25" fill="#F1F1EE"/>
+  <path d="M31.4 40.7 38.2 33.9C44.9 27.2 55.8 27.2 62.5 33.9L64.3 35.7C71 42.4 71 53.3 64.3 60L57.5 66.8" stroke="#090A0C" stroke-width="7.2" stroke-linecap="round"/>
+  <path d="M64.6 55.3 57.8 62.1C51.1 68.8 40.2 68.8 33.5 62.1L31.7 60.3C25 53.6 25 42.7 31.7 36L38.5 29.2" stroke="#090A0C" stroke-width="7.2" stroke-linecap="round"/>
+  <path d="m39.1 57.1 16.2-16.2" stroke="#090A0C" stroke-width="7.2" stroke-linecap="round"/>
+  <circle cx="72.5" cy="25" r="5.5" fill="#D75B65"/>
+  <text x="116" y="64" fill="#F1F1EE" font-family="Manrope, Avenir Next, Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="800" letter-spacing="0.5"><tspan fill="#E45B67">Q</tspan><tspan fill="#F1F1EE">UICLINK</tspan></text>
 </svg>

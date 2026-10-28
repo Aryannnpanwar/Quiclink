@@ -8,6 +8,8 @@ require('dotenv').config();
 const app = express();
 app.disable('x-powered-by');
 
+const DEFAULT_DB_CONNECTION_TIMEOUT_MS = 10000;
+const DEFAULT_DB_IDLE_TIMEOUT_MS = 30000;
 const PORT = parsePort(process.env.PORT);
 const PUBLIC_APP_URL = getPublicAppUrl(process.env.PUBLIC_APP_URL, PORT);
 const databaseConfig = getDatabaseConfig(process.env);
@@ -72,6 +74,9 @@ function getDatabaseConfig(environment) {
 
   const config = {
     max: parsePoolSize(environment.PGPOOL_MAX),
+    connectionTimeoutMillis: DEFAULT_DB_CONNECTION_TIMEOUT_MS,
+    idleTimeoutMillis: DEFAULT_DB_IDLE_TIMEOUT_MS,
+    keepAlive: true,
   };
 
   if (databaseUrl) {
@@ -87,9 +92,26 @@ function getDatabaseConfig(environment) {
   const sslSetting = (environment.DATABASE_SSL || '').trim().toLowerCase();
   if (sslSetting === 'true' || sslSetting === 'require' || environment.PGSSLMODE === 'require') {
     config.ssl = { rejectUnauthorized: false };
+  } else if (connectionStringRequiresSsl(databaseUrl)) {
+    // Neon connection strings normally include ?sslmode=require. Keep SSL
+    // enabled when the host supplies that URL without a second env setting.
+    config.ssl = true;
   }
 
   return config;
+}
+
+function connectionStringRequiresSsl(value) {
+  if (!value) return false;
+
+  try {
+    const parsed = new URL(value);
+    const sslMode = parsed.searchParams.get('sslmode')?.trim().toLowerCase();
+    const sslFlag = parsed.searchParams.get('ssl')?.trim().toLowerCase();
+    return ['require', 'verify-ca', 'verify-full'].includes(sslMode) || ['true', '1'].includes(sslFlag);
+  } catch {
+    return false;
+  }
 }
 
 function parsePoolSize(value) {
@@ -464,4 +486,5 @@ module.exports = {
   generateShortCode,
   validateHttpUrl,
   validateShortCode,
+  getDatabaseConfig,
 };
