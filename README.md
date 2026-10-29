@@ -8,6 +8,8 @@ QuicLink is a URL utility for creating shareable short links and QR codes from o
 
 ![QuicLink homepage](quiclink-homepage.png)
 
+![QuicLink workspace](quiclink-workspace.png)
+
 ## Features
 
 - **Shorten URLs** — create persistent short links backed by PostgreSQL.
