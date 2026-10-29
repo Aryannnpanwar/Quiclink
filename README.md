@@ -31,6 +31,39 @@ QuicLink is a URL utility for creating shareable short links and QR codes from o
 | Configuration | `dotenv` | Loads local environment variables |
 | Testing | Node.js test runner | Runs project unit tests and checks |
 
+## Quick start
+
+1. Install [Node.js](https://nodejs.org/) and PostgreSQL.
+2. Clone the repository and enter the project folder:
+
+   ```bash
+   git clone https://github.com/Aryannnpanwar/Quiclink.git
+   cd Quiclink
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Create your local environment file:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+5. Edit `.env` with your PostgreSQL connection details, then create the database and initialize the schema using the [PostgreSQL setup](#postgresql-setup) instructions.
+6. Start QuicLink:
+
+   ```bash
+   npm start
+   ```
+
+7. Open <http://localhost:3000>.
+
+**Important:** PostgreSQL must be configured for link creation, saved links, and redirects to work. Keep your real `.env` file and database credentials private; never commit them to GitHub.
+
 ## Table of contents
 
 - [Requirements](#required-software)
