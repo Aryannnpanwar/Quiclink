@@ -1,14 +1,29 @@
 # QuicLink
 
-> Shorten. Scan. Share.
+> **Shorten. Scan. Share.**
 
-QuicLink is a standalone URL utility with three independent workflows:
+QuicLink is a URL utility for creating shareable short links and QR codes from one simple interface. It combines a responsive, dark-themed experience with a PostgreSQL-backed API for persistent links.
 
-1. **Shorten URL** — create a persistent short link backed by PostgreSQL.
-2. **Generate QR** — encode any HTTP/HTTPS URL locally and download the QR code as a PNG.
-3. **Shorten + QR** — create a real short link, then encode that short link in a QR code.
+## Features
 
-The launch experience uses Manrope and DM Mono typography, a near-black/silver/crimson QuicLink identity, responsive tool tabs, result cards, scroll reveals, and a mobile navigation menu.
+- **Shorten URLs** — create persistent short links backed by PostgreSQL.
+- **Generate QR codes** — encode any HTTP or HTTPS URL in the browser and download the QR code as a PNG.
+- **Shorten + QR** — create a short link and generate a QR code that points to it.
+- **Manage links** — list, edit, and delete saved server-side links.
+- **Responsive interface** — tool tabs, result cards, mobile navigation, and a near-black, silver, and crimson visual identity.
+- **Local QR history** — QR-only results are kept in this browser; they are separate from persistent server-side links.
+
+## Table of contents
+
+- [Requirements](#required-software)
+- [Install](#install)
+- [PostgreSQL setup](#postgresql-setup)
+- [Environment configuration](#environment-configuration)
+- [Run the application](#run-the-application)
+- [API endpoints](#api-endpoints)
+- [Browser history vs. server persistence](#browser-history-versus-server-persistence)
+- [Tests and checks](#tests-and-checks)
+- [Current scope](#phase-1-scope)
 
 ## Required software
 
