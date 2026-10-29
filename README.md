@@ -19,6 +19,18 @@ QuicLink is a URL utility for creating shareable short links and QR codes from o
 - **Responsive interface** — tool tabs, result cards, mobile navigation, and a near-black, silver, and crimson visual identity.
 - **Local QR history** — QR-only results are kept in this browser; they are separate from persistent server-side links.
 
+## Tech stack
+
+| Layer | Technology | Purpose |
+| --- | --- | --- |
+| Frontend | HTML, CSS, JavaScript | Responsive interface and client-side interactions |
+| Backend | Node.js, Express | Serves the app and exposes the REST API |
+| Database | PostgreSQL | Stores persistent short links |
+| Database client | `pg` | Connects the Express server to PostgreSQL |
+| QR generation | `qrcode` | Generates downloadable QR codes in the browser |
+| Configuration | `dotenv` | Loads local environment variables |
+| Testing | Node.js test runner | Runs project unit tests and checks |
+
 ## Table of contents
 
 - [Requirements](#required-software)
