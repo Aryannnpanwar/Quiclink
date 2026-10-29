@@ -2,6 +2,11 @@
 
 > **Shorten. Scan. Share.**
 
+![GitHub repo size](https://img.shields.io/github/repo-size/Aryannnpanwar/Quiclink)
+![GitHub last commit](https://img.shields.io/github/last-commit/Aryannnpanwar/Quiclink)
+![License](https://img.shields.io/github/license/Aryannnpanwar/Quiclink)
+![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=node.js&logoColor=white)
+
 QuicLink is a URL utility for creating shareable short links and QR codes from one simple interface. It combines a responsive, dark-themed experience with a PostgreSQL-backed API for persistent links.
 
 ## Preview
