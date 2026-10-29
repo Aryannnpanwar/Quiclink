@@ -64,6 +64,29 @@ QuicLink is a URL utility for creating shareable short links and QR codes from o
 
 **Important:** PostgreSQL must be configured for link creation, saved links, and redirects to work. Keep your real `.env` file and database credentials private; never commit them to GitHub.
 
+## Project status
+
+QuicLink is an active personal project. The current implementation includes:
+
+- [x] URL shortening with persistent PostgreSQL storage
+- [x] QR code generation and PNG download
+- [x] Combined short-link and QR workflow
+- [x] View, edit, and delete saved links
+- [x] Responsive dark-themed interface
+- [x] API and automated test commands
+
+## Roadmap
+
+Potential future improvements:
+
+- [ ] Deploy a public hosted version
+- [ ] Add optional user accounts and link ownership
+- [ ] Add link expiration controls
+- [ ] Add click analytics
+- [ ] Add password-protected links
+
+These are planned ideas, not currently implemented features.
+
 ## Table of contents
 
 - [Requirements](#required-software)
